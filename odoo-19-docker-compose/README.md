@@ -26,10 +26,6 @@ $ sudo apt-get install curl
 $ sudo yum install curl
 ```
 
-<p>
-<img src="screenshots/odoo-19-docker-compose.gif" width="100%">
-</p>
-
 ## Usage
 
 Start the container:
