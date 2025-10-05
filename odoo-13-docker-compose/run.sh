@@ -4,7 +4,7 @@ PORT=$2
 CHAT=$3
 
 # Clone Odoo directory
-git clone --depth=1 https://github.com/codedeep79/odoo-16-docker-compose $DESTINATION
+git clone --depth=1 https://github.com/codedeep79/odoo-13-docker-compose $DESTINATION
 rm -rf $DESTINATION/.git
 
 # Create PostgreSQL directory
@@ -31,25 +31,19 @@ fi
 # Update docker-compose configuration
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS sed syntax
-  sed -i '' 's/10016/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i '' 's/20016/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/10013/'$PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i '' 's/20013/'$CHAT'/g' $DESTINATION/docker-compose.yml
 else
   # Linux sed syntax
-  sed -i 's/10016/'$PORT'/g' $DESTINATION/docker-compose.yml
-  sed -i 's/20016/'$CHAT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/10013/'$PORT'/g' $DESTINATION/docker-compose.yml
+  sed -i 's/20013/'$CHAT'/g' $DESTINATION/docker-compose.yml
 fi
 
 # Set file and directory permissions after installation
 find $DESTINATION -type f -exec chmod 644 {} \;
 find $DESTINATION -type d -exec chmod 755 {} \;
 
-chmod +x $DESTINATION/entrypoint.sh
-
 # Run Odoo
-if ! is_present="$(type -p "docker-compose")" || [[ -z $is_present ]]; then
-  docker compose -f $DESTINATION/docker-compose.yml up -d
-else
-  docker-compose -f $DESTINATION/docker-compose.yml up -d
-fi
+docker-compose -f $DESTINATION/docker-compose.yml up -d
 
 echo "Odoo started at http://localhost:$PORT | Master Password: admin | Live chat port: $CHAT"
